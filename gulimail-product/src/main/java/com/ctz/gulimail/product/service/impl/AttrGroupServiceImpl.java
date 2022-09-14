@@ -1,5 +1,7 @@
 package com.ctz.gulimail.product.service.impl;
 
+import com.ctz.common.utils.PageUtils;
+import com.ctz.common.utils.Query;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

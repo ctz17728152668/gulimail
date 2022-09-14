@@ -1,13 +1,26 @@
 package com.ctz.gulimail.member;
 
-import org.junit.jupiter.api.Test;
+import com.ctz.gulimail.member.entity.GrowthChangeHistoryEntity;
+import com.ctz.gulimail.member.service.GrowthChangeHistoryService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class GulimailMemberApplicationTests {
+public class GulimailMemberApplicationTests {
+
+    @Autowired
+    private GrowthChangeHistoryService historyService;
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+        List<GrowthChangeHistoryEntity> list = historyService.list();
+
     }
 
 }
