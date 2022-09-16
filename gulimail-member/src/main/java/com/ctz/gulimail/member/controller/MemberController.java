@@ -30,6 +30,11 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @RequestMapping("/ll")
+    public R ll(){
+        return R.ok().put("abc","abc");
+    }
+
     /**
      * 列表
      */

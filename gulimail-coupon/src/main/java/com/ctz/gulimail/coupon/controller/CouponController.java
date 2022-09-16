@@ -3,6 +3,7 @@ package com.ctz.gulimail.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.ctz.gulimail.coupon.feign.F;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,14 @@ import com.ctz.common.utils.R;
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @Autowired
+    private F f;
+
+    @RequestMapping("aa")
+    public R a(){
+        return f.ll();
+    }
 
     /**
      * 列表
