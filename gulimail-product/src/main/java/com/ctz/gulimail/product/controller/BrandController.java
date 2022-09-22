@@ -1,20 +1,24 @@
 package com.ctz.gulimail.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.ctz.common.exception.BizCodeEnume;
+import com.ctz.common.valid.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.ctz.gulimail.product.entity.BrandEntity;
 import com.ctz.gulimail.product.service.BrandService;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -58,8 +62,20 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    public R save(@Validated @RequestBody BrandEntity brand, BindingResult result){
+        if (result.hasErrors()) {
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            HashMap<String, String> map = new HashMap<>();
+            for (FieldError error : fieldErrors) {
+                String defaultMessage = error.getDefaultMessage();
+                String field = error.getField();
+                map.put(field,defaultMessage);
+            }
+
+            return R.error(BizCodeEnume.VALID_EXCEPTION.getCode(),"提交的数据不合法").put("data",map);
+        } else {
+            brandService.save(brand);
+        }
 
         return R.ok();
     }
@@ -67,7 +83,7 @@ public class BrandController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     //@RequiresPermissions("product:brand:update")
     public R update(@RequestBody BrandEntity brand){
 		brandService.updateById(brand);
