@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 商品三级分类
@@ -66,7 +68,9 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 三级目录 孩子节点
 	 */
+	@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 	@TableField(exist = false)
 	private List<CategoryEntity> children;
+
 
 }

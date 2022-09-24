@@ -4,9 +4,7 @@ import com.ctz.common.utils.PageUtils;
 import com.ctz.common.utils.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -51,6 +49,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //TODO 检查是否被其他依赖
 
         baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public Long[] getPath(Long catelogId) {
+        LinkedList<Long> longs = new LinkedList<>();
+        while (catelogId!=0){
+            longs.addFirst(catelogId);
+            catelogId = this.getById(catelogId).getParentCid();
+        }
+        return longs.toArray(new Long[longs.size()]);
     }
 
     private List<CategoryEntity> findChildren(CategoryEntity category, List<CategoryEntity> all) {
