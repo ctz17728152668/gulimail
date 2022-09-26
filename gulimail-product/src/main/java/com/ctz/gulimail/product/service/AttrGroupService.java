@@ -2,8 +2,10 @@ package com.ctz.gulimail.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ctz.common.utils.PageUtils;
+import com.ctz.gulimail.product.entity.AttrEntity;
 import com.ctz.gulimail.product.entity.AttrGroupEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +21,8 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
 
 
     PageUtils queryPageByCatelogId(Map<String, Object> params, Long catelogId);
+
+    List<AttrEntity> getAttrByGroupId(Long attrgroupId);
 
 }
 
