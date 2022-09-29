@@ -1,10 +1,10 @@
 package com.ctz.gulimail.product.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.math.BigDecimal;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -23,7 +23,7 @@ public class SpuInfoEntity implements Serializable {
 	/**
 	 * 商品id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 商品名称
@@ -52,10 +52,12 @@ public class SpuInfoEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private Date createTime;
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
 	/**
 	 * 
 	 */
-	private Date updateTime;
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private LocalDateTime updateTime;
 
 }

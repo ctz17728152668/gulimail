@@ -1,19 +1,19 @@
 package com.ctz.gulimail.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ctz.common.constant.ProductConstant;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.common.utils.Query;
 import com.ctz.gulimail.product.entity.AttrAttrgroupRelationEntity;
 import com.ctz.gulimail.product.entity.AttrEntity;
 import com.ctz.gulimail.product.service.AttrAttrgroupRelationService;
 import com.ctz.gulimail.product.service.AttrService;
+import com.ctz.gulimail.product.vo.AttrGroupRespVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -81,7 +81,30 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         return list;
     }
 
+    @Override
+    public List<AttrGroupRespVo> getAttrGroupWithAttrsByCatelogId(Long catelogId) {
+        List<AttrGroupRespVo> attrGroupRespVos = this.list(new LambdaQueryWrapper<AttrGroupEntity>()
+                .eq(AttrGroupEntity::getCatelogId, catelogId))
+                .stream()
+                .map((groupEntity) -> {
+                    AttrGroupRespVo attrGroupRespVo = new AttrGroupRespVo();
+                    BeanUtils.copyProperties(groupEntity, attrGroupRespVo);
+                    return attrGroupRespVo;
+                }).collect(Collectors.toList());
 
+        attrGroupRespVos.forEach((attrGroupRespVo)->{
+            List<Long> attrIds = relationService.list(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
+                    .eq(AttrAttrgroupRelationEntity::getAttrGroupId, attrGroupRespVo.getAttrGroupId()))
+                    .stream()
+                    .map(AttrAttrgroupRelationEntity::getAttrId)
+                    .collect(Collectors.toList());
+
+            List<AttrEntity> collect = (List<AttrEntity>) attrService.listByIds(attrIds);
+
+            attrGroupRespVo.setAttrs(collect);
+        });
+        return attrGroupRespVos;
+    }
 
 
 }

@@ -1,4 +1,6 @@
 package com.ctz.gulimail.product.dao;
+import org.apache.ibatis.annotations.Param;
+import java.util.Collection;
 
 import com.ctz.gulimail.product.entity.SpuImagesEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -13,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SpuImagesDao extends BaseMapper<SpuImagesEntity> {
-	
+
+    int insertBatch(@Param("spuImagesEntityCollection") Collection<SpuImagesEntity> spuImagesEntityCollection);
 }

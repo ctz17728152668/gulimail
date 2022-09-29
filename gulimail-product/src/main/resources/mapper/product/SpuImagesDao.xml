@@ -12,6 +12,15 @@
         <result property="imgSort" column="img_sort"/>
         <result property="defaultImg" column="default_img"/>
     </resultMap>
+    <insert id="insertBatch">
+        insert into pms_spu_images(id,spu_id,img_name,
+        img_url,img_sort,default_img)
+        values
+        <foreach collection="spuImagesEntityCollection" item="item" separator=",">
+            (#{item.id,jdbcType=NUMERIC},#{item.spuId,jdbcType=NUMERIC},#{item.imgName,jdbcType=VARCHAR},
+            #{item.imgUrl,jdbcType=VARCHAR},#{item.imgSort,jdbcType=NUMERIC},#{item.defaultImg,jdbcType=NUMERIC})
+        </foreach>
+    </insert>
 
 
 </mapper>

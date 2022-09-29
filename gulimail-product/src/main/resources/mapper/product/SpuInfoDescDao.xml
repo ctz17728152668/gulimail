@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ctz.gulimail.product.dao.SpuInfoDescDao">
+
+    <resultMap id="BaseResultMap" type="com.ctz.gulimail.product.entity.SpuInfoDesc">
+            <id property="spuId" column="spu_id" jdbcType="BIGINT"/>
+            <result property="decript" column="decript" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        spu_id,decript
+    </sql>
+    <insert id="insertBatch">
+        insert into pms_spu_info_desc(spu_id,decript)
+        values
+        <foreach collection="spuInfoDescCollection" item="item" separator=",">
+            (#{item.spuId,jdbcType=NUMERIC},#{item.decript,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+</mapper>

@@ -75,7 +75,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     @Override
     public PageUtils attrList(Map<String, Object> params, Long catelogId, String type) {
         LambdaQueryWrapper<AttrEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(AttrEntity::getAttrType,"base".equalsIgnoreCase(type)?0:1);
+        wrapper.eq(AttrEntity::getAttrType,"base".equalsIgnoreCase(type)?ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode():ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode());
         if(catelogId!=0){
             wrapper.eq(AttrEntity::getCatelogId,catelogId);
         }

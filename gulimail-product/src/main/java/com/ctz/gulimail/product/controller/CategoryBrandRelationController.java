@@ -3,10 +3,13 @@ package com.ctz.gulimail.product.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ctz.gulimail.product.entity.CategoryBrandRelationEntity;
 import com.ctz.gulimail.product.service.CategoryBrandRelationService;
+import com.ctz.gulimail.product.vo.BrandVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +41,24 @@ public class CategoryBrandRelationController {
         List<CategoryBrandRelationEntity> list = categoryBrandRelationService.list(
                 new LambdaQueryWrapper<CategoryBrandRelationEntity>().
                         eq(CategoryBrandRelationEntity::getBrandId, brandId));
+        return R.ok().put("data", list);
+    }
+
+    /**
+     * 根据分类id 获取分类关联的品牌
+     * @param catId
+     * @return
+     */
+    @GetMapping("brands/list")
+    public R getListByCatId(@RequestParam("catId") Long catId){
+        List<BrandVo> list = categoryBrandRelationService.list(
+                new LambdaQueryWrapper<CategoryBrandRelationEntity>()
+                        .eq(CategoryBrandRelationEntity::getCatelogId, catId))
+                .stream().map((relation) -> {
+                    BrandVo brandVo = new BrandVo();
+                    BeanUtils.copyProperties(relation, brandVo);
+                    return brandVo;
+                }).collect(Collectors.toList());
         return R.ok().put("data", list);
     }
 

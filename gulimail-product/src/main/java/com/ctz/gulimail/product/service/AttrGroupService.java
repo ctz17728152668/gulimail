@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.gulimail.product.entity.AttrEntity;
 import com.ctz.gulimail.product.entity.AttrGroupEntity;
+import com.ctz.gulimail.product.vo.AttrGroupRespVo;
 
 import java.util.List;
 import java.util.Map;
@@ -24,5 +25,6 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     List<AttrEntity> getAttrByGroupId(Long attrgroupId);
 
+    List<AttrGroupRespVo> getAttrGroupWithAttrsByCatelogId(Long catelogId);
 }
 

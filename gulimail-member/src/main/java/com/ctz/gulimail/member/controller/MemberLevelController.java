@@ -27,6 +27,7 @@ import com.ctz.common.utils.R;
 @RestController
 @RequestMapping("member/memberlevel")
 public class MemberLevelController {
+
     @Autowired
     private MemberLevelService memberLevelService;
 
@@ -36,8 +37,8 @@ public class MemberLevelController {
     @RequestMapping("/list")
     //@RequiresPermissions("member:memberlevel:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = memberLevelService.queryPage(params);
 
+        PageUtils page = memberLevelService.getLevelList(params);
         return R.ok().put("page", page);
     }
 

@@ -9,6 +9,7 @@ import com.ctz.gulimail.product.entity.AttrEntity;
 import com.ctz.gulimail.product.service.AttrAttrgroupRelationService;
 import com.ctz.gulimail.product.service.AttrService;
 import com.ctz.gulimail.product.service.CategoryService;
+import com.ctz.gulimail.product.vo.AttrGroupRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +63,15 @@ public class AttrGroupController {
     public R deleteRelation(@RequestBody AttrAttrgroupRelationEntity[] relations){
         relationService.deleteRelations(relations);
         return R.ok();
+    }
+
+    /**
+     * 根据分类id 获取分类下所有分组及其分组下所有关联属性
+     */
+    @GetMapping("{catelogId}/withattr")
+    public R getGroupByCatId(@PathVariable("catelogId") Long catelogId){
+        List<AttrGroupRespVo> list = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+        return R.ok().put("data",list);
     }
 
     /**
