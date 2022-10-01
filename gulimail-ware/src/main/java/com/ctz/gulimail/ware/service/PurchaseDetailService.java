@@ -3,6 +3,7 @@ package com.ctz.gulimail.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.gulimail.ware.entity.PurchaseDetailEntity;
+import com.ctz.gulimail.ware.vo.MergeVo;
 
 import java.util.Map;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void mergePurchase(MergeVo mergeVo);
 }
 

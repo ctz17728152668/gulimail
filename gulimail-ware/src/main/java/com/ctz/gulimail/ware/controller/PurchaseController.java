@@ -1,14 +1,14 @@
 package com.ctz.gulimail.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.ctz.gulimail.ware.service.PurchaseDetailService;
+import com.ctz.gulimail.ware.vo.MergeVo;
+import com.ctz.gulimail.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ctz.gulimail.ware.entity.PurchaseEntity;
 import com.ctz.gulimail.ware.service.PurchaseService;
@@ -30,6 +30,9 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @Autowired
+    private PurchaseDetailService purchaseDetailService;
+
     /**
      * 列表
      */
@@ -39,6 +42,49 @@ public class PurchaseController {
         PageUtils page = purchaseService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 领取采购单
+     * @param ids
+     * @return
+     */
+    @PostMapping("received")
+    public R received(@RequestBody List<Long> ids){
+        purchaseService.received(ids);
+        return R.ok();
+    }
+
+    /**
+     * 完成采购
+     * @param doneVo
+     * @return
+     */
+    @PostMapping("done")
+    public R done(@RequestBody PurchaseDoneVo doneVo){
+        purchaseService.done(doneVo);
+        return R.ok();
+    }
+
+    /**
+     * 查询未领取的采购单
+     * @return
+     */
+    @GetMapping("unreceive/list")
+    public R unreceiveList(){
+        PageUtils page = purchaseService.queryPageSimple();
+        return R.ok().put("page",page);
+    }
+
+    /**
+     * 合并采购需求
+     * @param mergeVo
+     * @return
+     */
+    @PostMapping("merge")
+    public R mergePurchase(@RequestBody MergeVo mergeVo){
+        purchaseDetailService.mergePurchase(mergeVo);
+        return R.ok();
     }
 
 

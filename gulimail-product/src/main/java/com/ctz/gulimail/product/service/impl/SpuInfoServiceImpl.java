@@ -1,5 +1,6 @@
 package com.ctz.gulimail.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ctz.common.to.SkuReductionTo;
 import com.ctz.common.to.SpuBoundTo;
 import com.ctz.common.utils.PageUtils;
@@ -28,6 +29,7 @@ import com.ctz.gulimail.product.dao.SpuInfoDao;
 import com.ctz.gulimail.product.entity.SpuInfoEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 
 @Service("spuInfoService")
@@ -158,6 +160,29 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
 
 
+    }
+
+    @Override
+    public PageUtils queryPageByCondition(Map<String, Object> params) {
+        LambdaQueryWrapper<SpuInfoEntity> wrapper = new LambdaQueryWrapper<>();
+
+        String key = (String) params.get("key");
+        String catelogId = (String) params.get("catelogId");
+        String brandId = (String) params.get("brandId");
+        String status = (String) params.get("status");
+
+        wrapper.and(!StringUtils.isEmpty(key),(w)->{
+            w.eq(SpuInfoEntity::getId,key).or().like(SpuInfoEntity::getSpuName,key);
+        });
+        wrapper.eq(!StringUtils.isEmpty(catelogId)&&!catelogId.equals("0"),SpuInfoEntity::getCatalogId,catelogId);
+        wrapper.eq(!StringUtils.isEmpty(brandId)&&!brandId.equals("0"),SpuInfoEntity::getBrandId,brandId);
+        wrapper.eq(!StringUtils.isEmpty(status),SpuInfoEntity::getPublishStatus,status);
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                wrapper
+        );
+        return new PageUtils(page);
     }
 
 }

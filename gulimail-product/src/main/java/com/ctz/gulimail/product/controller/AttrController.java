@@ -1,8 +1,11 @@
 package com.ctz.gulimail.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.ctz.gulimail.product.entity.ProductAttrValue;
+import com.ctz.gulimail.product.service.ProductAttrValueService;
 import com.ctz.gulimail.product.vo.AttrRespVo;
 import com.ctz.gulimail.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
     /**
      * 列表
      */
@@ -46,6 +52,18 @@ public class AttrController {
         PageUtils page = attrService.attrList(params,catelogId,type);
 
         return R.ok().put("page", page);
+    }
+
+
+    /**
+     * 获取spu规格
+     * @param spuId
+     * @return
+     */
+    @GetMapping("base/listforspu/{spuId}")
+    public R getProductAttrBySpuId(@PathVariable Long spuId){
+        List<ProductAttrValue> list = productAttrValueService.getValueBySpuId(spuId);
+        return R.ok().put("data",list);
     }
 
 
@@ -79,7 +97,17 @@ public class AttrController {
     //@RequiresPermissions("product:attr:update")
     public R update(@RequestBody AttrVo attr){
 		attrService.updateAttr(attr);
+        return R.ok();
+    }
 
+    /**
+     * 批量修改规格
+     */
+    @PostMapping("/update/{spuId}")
+    //@RequiresPermissions("product:attr:update")
+    public R  updateSpuAttr(@PathVariable("spuId") Long spuId,
+                            @RequestBody List<ProductAttrValue> values){
+        productAttrValueService.updateSpuAttr(spuId,values);
         return R.ok();
     }
 
