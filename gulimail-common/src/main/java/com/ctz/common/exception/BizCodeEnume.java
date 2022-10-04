@@ -6,7 +6,8 @@ package com.ctz.common.exception;
 public enum BizCodeEnume {
 
     UNKNOW_EXCEPTION(10000,"系统位置异常"),
-    VALID_EXCEPTION(10001,"参数格式校验失败");
+    VALID_EXCEPTION(10001,"参数格式校验失败"),
+    PRODUCT_UP_EXCEPTION(11000,"商品上架失败");
 
 
     private String msg;

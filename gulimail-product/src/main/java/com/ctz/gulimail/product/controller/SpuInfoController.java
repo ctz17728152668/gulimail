@@ -27,6 +27,7 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+
     /**
      * 列表
      */
@@ -36,6 +37,17 @@ public class SpuInfoController {
         PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 商品上架
+     * @param spuId
+     * @return
+     */
+    @PostMapping("{spuId}/up")
+    public R up(@PathVariable("spuId") Long spuId){
+        spuInfoService.up(spuId);
+        return R.ok();
     }
 
 

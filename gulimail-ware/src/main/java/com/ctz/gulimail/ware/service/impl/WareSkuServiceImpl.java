@@ -2,13 +2,18 @@ package com.ctz.gulimail.ware.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ctz.common.constant.WareConstant;
+import com.ctz.common.to.SkuHasStockTo;
 import com.ctz.common.utils.R;
 import com.ctz.gulimail.ware.entity.PurchaseDetailEntity;
 import com.ctz.gulimail.ware.feign.ProductFeignClient;
 import com.ctz.gulimail.ware.service.PurchaseDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -85,6 +90,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuEntity.setStockLocked(WareConstant.SkuStockLockStatus.UNLOCKED.getCode());
             wareSkuService.save(wareSkuEntity);
         }
+    }
+
+    @Override
+    public List<SkuHasStockTo> getSkuHasStockBySkuIds(List<Long> skuIds) {
+        List<SkuHasStockTo> collect = skuIds.stream().map((id) -> {
+            SkuHasStockTo skuHasStockTo = new SkuHasStockTo();
+            skuHasStockTo.setSkuId(id);
+            Long count = baseMapper.getStockBySkuId(id);
+            skuHasStockTo.setHasStock(count==null?false:count>0);
+            return skuHasStockTo;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }

@@ -19,5 +19,6 @@
         <module>renren-generator</module>
         <module>gulimail-common</module>
         <module>gulimail-gateway</module>
+        <module>gulimail-search</module>
     </modules>
 </project>

@@ -6,6 +6,7 @@ import com.ctz.gulimail.product.entity.AttrEntity;
 import com.ctz.gulimail.product.vo.AttrRespVo;
 import com.ctz.gulimail.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,5 +29,7 @@ public interface AttrService extends IService<AttrEntity> {
     void updateAttr(AttrVo attr);
 
     PageUtils getNoattrByGroupId(Map<String, Object> params, Long attrgroupId);
+
+    List<Long> getSearchAttrByIds(List<Long> attrIds);
 }
 

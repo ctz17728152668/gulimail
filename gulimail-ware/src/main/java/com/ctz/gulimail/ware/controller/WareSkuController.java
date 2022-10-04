@@ -1,14 +1,12 @@
 package com.ctz.gulimail.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.ctz.common.to.SkuHasStockTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ctz.gulimail.ware.entity.WareSkuEntity;
 import com.ctz.gulimail.ware.service.WareSkuService;
@@ -52,6 +50,13 @@ public class WareSkuController {
 
         return R.ok().put("wareSku", wareSku);
     }
+
+    @PostMapping("hasStock")
+    public R getSkuHasStockBySkuIds(@RequestBody List<Long> skuIds){
+        List<SkuHasStockTo> tos = wareSkuService.getSkuHasStockBySkuIds(skuIds);
+        return R.ok().put("data",tos);
+    }
+
 
     /**
      * 保存
