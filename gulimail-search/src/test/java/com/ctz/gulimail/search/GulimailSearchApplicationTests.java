@@ -32,18 +32,9 @@ public class GulimailSearchApplicationTests {
 
     @Test
     public void contextLoads() throws IOException {
-        SearchRequest request = new SearchRequest();
-        request.indices("bank");
-
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-
-        request.source(searchSourceBuilder);
-
-        SearchResponse search = client.search(request, COMMON_OPTIONS);
-
-        System.out.println("search = " + search);
-
+        String test = "16_HUAWEI+Kirin+980";
+        test.replace("+", "%20");
+        System.out.println(test);
     }
 
     @Data

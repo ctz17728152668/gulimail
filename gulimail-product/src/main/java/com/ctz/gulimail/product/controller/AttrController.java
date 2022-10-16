@@ -11,7 +11,6 @@ import com.ctz.gulimail.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.ctz.gulimail.product.entity.AttrEntity;
 import com.ctz.gulimail.product.service.AttrService;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.common.utils.R;
@@ -120,6 +119,12 @@ public class AttrController {
 		attrService.removeByIds(Arrays.asList(attrIds));
 
         return R.ok();
+    }
+
+
+    @GetMapping("hello")
+    public String hello(){
+        return "hello";
     }
 
 }

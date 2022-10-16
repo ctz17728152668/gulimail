@@ -2,9 +2,8 @@ package com.ctz.gulimail.search.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.ctz.common.to.es.SkuEsModel;
-import com.ctz.common.utils.R;
 import com.ctz.gulimail.search.config.ElasticSearchConfig;
-import com.ctz.gulimail.search.constants.EsConstants;
+import com.ctz.gulimail.search.constants.Esconstant;
 import com.ctz.gulimail.search.service.ProductSaveService;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -27,7 +26,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
     public boolean productStatusUp(List<SkuEsModel> skuEsModelList) throws IOException {
         BulkRequest bulkRequest = new BulkRequest();
         for (SkuEsModel skuEsModel : skuEsModelList) {
-            IndexRequest indexRequest = new IndexRequest(EsConstants.PRODUCT_INDEX.getIndex());
+            IndexRequest indexRequest = new IndexRequest(Esconstant.PRODUCT_INDEX);
             indexRequest.id(skuEsModel.getSkuId().toString());
             String s = JSON.toJSONString(skuEsModel);
             indexRequest.source(s, XContentType.JSON);

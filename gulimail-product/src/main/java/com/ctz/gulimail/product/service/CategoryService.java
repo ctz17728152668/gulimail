@@ -3,6 +3,7 @@ package com.ctz.gulimail.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.gulimail.product.entity.CategoryEntity;
+import com.ctz.gulimail.product.vo.Catelog2Vo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,5 +24,11 @@ public interface CategoryService extends IService<CategoryEntity> {
     void removeMenusByIds(List<Long> asList);
 
     Long[] getPath(Long catelogId);
+
+    List<CategoryEntity> queryLevelOne();
+
+    Map<String, List<Catelog2Vo>>  getcatalogJson();
+
+    void updateCascade(CategoryEntity category);
 }
 

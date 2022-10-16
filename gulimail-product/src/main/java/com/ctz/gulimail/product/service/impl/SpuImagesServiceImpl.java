@@ -18,6 +18,7 @@ import com.ctz.gulimail.product.entity.SpuImagesEntity;
 import com.ctz.gulimail.product.service.SpuImagesService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 
 @Service("spuImagesService")
@@ -40,7 +41,7 @@ public class SpuImagesServiceImpl extends ServiceImpl<SpuImagesDao, SpuImagesEnt
     @Override
     public void saveImagesBatch(Long id, List<String> images) {
         if(!CollectionUtils.isEmpty(images)){
-            List<SpuImagesEntity> collect = images.stream().map((s) -> {
+            List<SpuImagesEntity> collect = images.stream().filter(item->!StringUtils.isEmpty(item)).map((s) -> {
                 SpuImagesEntity spuImagesEntity = new SpuImagesEntity();
                 spuImagesEntity.setSpuId(id);
                 spuImagesEntity.setImgUrl(s);

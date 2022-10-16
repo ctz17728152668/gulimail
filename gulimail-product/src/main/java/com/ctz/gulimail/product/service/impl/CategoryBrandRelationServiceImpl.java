@@ -54,6 +54,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         save(categoryBrandRelationEntity);
     }
 
+    @Override
+    public void updateCategory(Long catId, String name) {
+        lambdaUpdate().set(CategoryBrandRelationEntity::getCatelogName, name)
+                .eq(CategoryBrandRelationEntity::getCatelogId, catId);
+    }
+
 }
 
 
