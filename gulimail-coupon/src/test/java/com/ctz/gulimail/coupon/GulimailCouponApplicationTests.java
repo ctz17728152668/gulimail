@@ -20,22 +20,22 @@ public class GulimailCouponApplicationTests {
     @Test
     public void contextLoads() {
         int[][] ints = {
-                {9,12},{1,10},{4,11},{8,12},{3,9},{6,9},{6,7}
+                {-52,31},{-73,-26},{82,97},{-65,-11},{-62,-49},{95,99},{58,95},{-31,49},{66,98}
+                ,{-63,2},{30,47},{-40,-26}
         };
-        int minArrowShots = findMinArrowShots(ints);
-        System.out.println("minArrowShots = " + minArrowShots);
+        int i = eraseOverlapIntervals(ints);
     }
 
-    public int findMinArrowShots(int[][] points) {
-        Arrays.sort(points,(a,b)->Integer.compare(a[0],b[0]));
-
-        int count = 1;
-        for(int i=1;i<points.length;i++){
-            if(points[i][0]>points[i-1][1])
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals,(a,b)-> a[1]-b[1]);
+        int count = 0;
+        for(int i=1;i<intervals.length;i++){
+            if(intervals[i-1][1]>intervals[i][0]){
                 count++;
-            else
-                points[i][1] = Math.min(points[i][1],points[i-1][1]);
+                intervals[i][1]=intervals[i-1][1];
+            }
         }
+        System.out.println(count);
         return count;
     }
 

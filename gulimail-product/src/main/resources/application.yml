@@ -32,6 +32,6 @@ server:
   port: 10000
 logging:
   level:
-    com.ctz.gulimail: error
+    com.ctz.gulimail: debug
 
 

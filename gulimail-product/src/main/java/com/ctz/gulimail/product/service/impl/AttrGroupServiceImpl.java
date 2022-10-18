@@ -6,9 +6,12 @@ import com.ctz.common.utils.PageUtils;
 import com.ctz.common.utils.Query;
 import com.ctz.gulimail.product.entity.AttrAttrgroupRelationEntity;
 import com.ctz.gulimail.product.entity.AttrEntity;
+import com.ctz.gulimail.product.entity.ProductAttrValue;
 import com.ctz.gulimail.product.service.AttrAttrgroupRelationService;
 import com.ctz.gulimail.product.service.AttrService;
+import com.ctz.gulimail.product.service.ProductAttrValueService;
 import com.ctz.gulimail.product.vo.AttrGroupRespVo;
+import com.ctz.gulimail.product.vo.SkuItemVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,10 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -104,6 +111,36 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             attrGroupRespVo.setAttrs(collect);
         });
         return attrGroupRespVos;
+    }
+
+    @Override
+    public List<SkuItemVo.SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId) {
+
+        List<AttrGroupEntity> groupEntityList = list(new LambdaQueryWrapper<AttrGroupEntity>().eq(AttrGroupEntity::getCatelogId, catalogId));
+
+        List<ProductAttrValue> productAttrValues = productAttrValueService.getValueBySpuId(spuId);
+
+        Map<Long, ProductAttrValue> attrValueMap = productAttrValues.stream().collect(Collectors.toMap(ProductAttrValue::getAttrId, item -> item));
+
+        Map<Long, List<AttrAttrgroupRelationEntity>> groupIdMap = productAttrValues.stream().map(ProductAttrValue::getAttrId).map(item -> {
+            return relationService.getOne(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>().eq(AttrAttrgroupRelationEntity::getAttrId, item));
+        }).collect(Collectors.groupingBy(AttrAttrgroupRelationEntity::getAttrGroupId));
+
+        List<SkuItemVo.SpuItemAttrGroupVo> result = groupEntityList.stream().map(item -> {
+            SkuItemVo.SpuItemAttrGroupVo spuItemAttrGroupVo = new SkuItemVo.SpuItemAttrGroupVo();
+            spuItemAttrGroupVo.setGroupName(item.getAttrGroupName());
+            List<SkuItemVo.SpuBaseAttrVo> spuBaseAttrVos = groupIdMap.get(item.getAttrGroupId()).stream().map(AttrAttrgroupRelationEntity::getAttrId)
+                    .map(attrId -> {
+                        SkuItemVo.SpuBaseAttrVo spuBaseAttrVo = new SkuItemVo.SpuBaseAttrVo();
+                        ProductAttrValue productAttrValue = attrValueMap.get(attrId);
+                        spuBaseAttrVo.setAttrName(productAttrValue.getAttrName());
+                        spuBaseAttrVo.setAttrValue(productAttrValue.getAttrValue());
+                        return spuBaseAttrVo;
+                    }).collect(Collectors.toList());
+            spuItemAttrGroupVo.setAttrs(spuBaseAttrVos);
+            return spuItemAttrGroupVo;
+        }).collect(Collectors.toList());
+        return result;
     }
 
 

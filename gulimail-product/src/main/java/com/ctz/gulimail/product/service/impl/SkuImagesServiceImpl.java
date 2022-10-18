@@ -30,14 +30,15 @@ public class SkuImagesServiceImpl extends ServiceImpl<SkuImagesDao, SkuImages>
     @Override
     public void saveImages(Long skuId, List<Images> images) {
         if(!CollectionUtils.isEmpty(images)){
-            List<SkuImages> collect = images.stream().map((img -> {
+            List<SkuImages> collect = images.stream()
+                    .filter(image->!StringUtils.isEmpty(image.getImgUrl()))
+                    .map((img -> {
                 SkuImages skuImages = new SkuImages();
                 skuImages.setSkuId(skuId);
                 skuImages.setDefaultImg(img.getDefaultImg());
                 skuImages.setImgUrl(img.getImgUrl());
                 return skuImages;
             }))//仅需要图片路径不为空
-                    .filter((image)-> !StringUtils.isEmpty(image.getImgUrl()))
                     .collect(Collectors.toList());
 
             skuImagesService.saveBatch(collect);

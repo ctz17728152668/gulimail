@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ctz.common.utils.PageUtils;
 import com.ctz.gulimail.product.entity.SkuSaleAttrValueEntity;
 import com.ctz.gulimail.product.vo.Attr;
+import com.ctz.gulimail.product.vo.SkuItemVo;
 
 import java.util.List;
 import java.util.Map;
@@ -20,5 +21,7 @@ public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity
     PageUtils queryPage(Map<String, Object> params);
 
     void saveAttr(Long skuId, List<Attr> attr);
+
+    List<SkuItemVo.SkuItemSaleAttrVo> getSkuItemSaleAttrBySpuId(Long spuId);
 }
 
