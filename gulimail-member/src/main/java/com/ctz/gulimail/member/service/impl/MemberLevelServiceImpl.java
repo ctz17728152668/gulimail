@@ -44,4 +44,10 @@ public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelDao, MemberLe
         return new PageUtils(page);
     }
 
+    @Override
+    public Long getDefaultLevel() {
+        MemberLevelEntity memberLevelEntity = getOne(new LambdaQueryWrapper<MemberLevelEntity>().eq(MemberLevelEntity::getDefaultStatus, 1));
+        return memberLevelEntity.getId();
+    }
+
 }

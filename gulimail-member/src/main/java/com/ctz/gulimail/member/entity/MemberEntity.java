@@ -1,9 +1,11 @@
 package com.ctz.gulimail.member.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -22,7 +24,7 @@ public class MemberEntity implements Serializable {
 	/**
 	 * id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 会员等级id
@@ -91,11 +93,11 @@ public class MemberEntity implements Serializable {
 	/**
 	 * 注册时间
 	 */
-	private Date createTime;
+	private LocalDateTime createTime;
 	/**
 	 * 社交用户的唯一id
 	 */
-	private String socialUid;
+	private Integer socialUid;
 	/**
 	 * 访问令牌
 	 */
