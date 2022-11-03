@@ -37,6 +37,7 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao
     @Autowired
     private SkuInfoService skuInfoService;
 
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuSaleAttrValueEntity> page = this.page(
@@ -93,6 +94,11 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao
 
         }
         return skuItemSaleAttrVos;
+    }
+
+    @Override
+    public List<String> getStringList(Long skuId) {
+        return baseMapper.getStringList(skuId);
     }
 
 }

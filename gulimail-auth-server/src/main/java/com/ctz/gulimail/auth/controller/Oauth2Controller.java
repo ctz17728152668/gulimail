@@ -50,7 +50,8 @@ public class Oauth2Controller {
                 String data = JSON.toJSONString(r.get("data"));
                 MemberRespVO memberRespVO = JSON.parseObject(data, MemberRespVO.class);
                 session.setAttribute(AuthServerConstant.LOGIN_USER_PREFIX,memberRespVO);
-                //TODO 保存session时 domain作用域设置为子域
+
+
                 log.info("登录成功:{}",memberRespVO);
                 return "redirect:http://gulimall.com";
             }

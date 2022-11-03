@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: gulimall-cart
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: 16da8be0-6d35-495c-83a0-93b0d2a7f02a

@@ -1,14 +1,11 @@
 package com.ctz.gulimail.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ctz.gulimail.product.entity.SkuSaleAttrValueEntity;
 import com.ctz.gulimail.product.service.SkuSaleAttrValueService;
@@ -49,9 +46,15 @@ public class SkuSaleAttrValueController {
     //@RequiresPermissions("product:skusaleattrvalue:info")
     public R info(@PathVariable("id") Long id){
 		SkuSaleAttrValueEntity skuSaleAttrValue = skuSaleAttrValueService.getById(id);
-
         return R.ok().put("skuSaleAttrValue", skuSaleAttrValue);
     }
+
+    @GetMapping("stringlist/{skuId}")
+    public List<String> getStringList(@PathVariable("skuId") Long skuId){
+        return skuSaleAttrValueService.getStringList(skuId);
+    }
+
+    @GetMapping("")
 
     /**
      * 保存

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.concurrent.ExecutionException;
 
@@ -24,6 +25,8 @@ public class ItemController {
         SkuItemVo skuItemVo = skuInfoService.item(skuId);
         log.debug("{}", JSON.toJSONString(skuItemVo));
         model.addAttribute("item",skuItemVo);
-        return "item1";
+        return "item";
     }
+
+
 }
